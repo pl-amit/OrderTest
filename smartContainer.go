@@ -35,6 +35,7 @@ import (
     "strings"
      "reflect"
     "github.com/hyperledger/fabric/core/chaincode/shim"
+    "github.com/hyperledger/fabric/protos/peer"
 )
 
 
@@ -61,7 +62,7 @@ type Geolocation struct {
 }*/
 
 type AssetState struct {
-AssetID         		*float64      `json:"ORDERID,omitempty"`        // all assets must have an ID, primary key of contract
+AssetID         		*string      `json:"ORDERID,omitempty"`        // all assets must have an ID, primary key of contract
 Status          		*string       `json:"STATUS,omitempty"`    		  // Container status
 
 Role            		*string       `json:"ROLE,omitempty"`
@@ -82,7 +83,7 @@ Temperature   			*float64  	  `json:"TEMPERATURE,omitempty"`
 Time   					*string 	  `json:"TIME,omitempty"`
 Timestamp   			*string 	  `json:"TIMESTAMP,omitempty"`
 
-Orderid   				*float64  	  `json:"ORDERID,omitempty"`
+Orderid   				*string  	  `json:"ORDERID,omitempty"`
 Container				*string		  `json:"CONTAINER,omitempty"`
 Orderdate   			*string 	  `json:"ORDERDATE,omitempty"`
 Content   				*string 	  `json:"CONTENT,omitempty"`
@@ -195,7 +196,7 @@ func (t *SimpleChaincode) updateAsset(stub shim.ChaincodeStubInterface, args []s
 //******************** deleteAsset ********************/
 
 func (t *SimpleChaincode) deleteAsset(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
-    var assetID float64 // asset ID
+    var assetID string // asset ID
     var err error
     var stateIn AssetState
 
@@ -219,7 +220,7 @@ func (t *SimpleChaincode) deleteAsset(stub shim.ChaincodeStubInterface, args []s
 //********************readAsset********************/
 
 func (t *SimpleChaincode) readAsset(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
-    var assetID float64 // asset ID
+    var assetID string // asset ID
     var err error
     var state AssetState
 
@@ -272,7 +273,7 @@ func (t *SimpleChaincode) readAssetSchemas(stub shim.ChaincodeStubInterface, arg
 // validate input data : common method called by the CRUD functions
 // ************************************
 func (t *SimpleChaincode) validateInput(args []string) (stateIn AssetState, err error) {
-    var assetID float64 // asset ID
+    var assetID string // asset ID
     var state AssetState = AssetState{} // The calling function is expecting an object of type AssetState
 
     if len(args) !=1 {
@@ -310,7 +311,7 @@ func (t *SimpleChaincode) validateInput(args []string) (stateIn AssetState, err 
 //******************** createOrUpdateAsset ********************/
 
 func (t *SimpleChaincode) createOrUpdateAsset(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
-    var assetID float64                 // asset ID                    // used when looking in map
+    var assetID string                 // asset ID                    // used when looking in map
     var err error
     var stateIn AssetState
     var stateStub AssetState
@@ -322,7 +323,7 @@ func (t *SimpleChaincode) createOrUpdateAsset(stub shim.ChaincodeStubInterface, 
     if err != nil {
         return nil, err
     }
-    assetID = *stateIn.AssetID
+    assetID = strings.TrimSpace(*stateIn.AssetID)
     // Partial updates introduced here
     // Check if asset record existed in stub
     assetBytes, err:= stub.GetState(assetID)
@@ -378,7 +379,7 @@ func (t *SimpleChaincode) createOrUpdateAsset(stub shim.ChaincodeStubInterface, 
  func (t *SimpleChaincode) getHistoryForAsset(stub shim.ChaincodeStubInterface, args []string) ([]byte,error) {
 
 	if len(args) < 1 {
-		return shim.Error("Incorrect number of arguments. Expecting 1")
+		return nil, errors.New("Incorrect number of arguments. Expecting 1")
 	}
 
 	assetID := args[0]
@@ -399,7 +400,8 @@ func (t *SimpleChaincode) createOrUpdateAsset(stub shim.ChaincodeStubInterface, 
 	for resultsIterator.HasNext() {
 		txID, historicValue, err := resultsIterator.Next()
 		if err != nil {
-			return shim.Error(err.Error())
+			//return shim.Error(err.Error())
+            return nil, err.Error()
 		}
 		// Add a comma before array asset, suppress it for the first array member
 		if bArrayMemberAlreadyWritten == true {
