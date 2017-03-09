@@ -375,7 +375,7 @@ func (t *SimpleChaincode) createOrUpdateAsset(stub shim.ChaincodeStubInterface, 
  }
 
  /*********************************** Get HistoryBlock for Asset *************************/
- func (t *SimpleChaincode) getHistoryForAsset(stub shim.ChaincodeStubInterface, args []string) pb.Response {
+ func (t *SimpleChaincode) getHistoryForAsset(stub shim.ChaincodeStubInterface, args []string) (bytes.Buffer,error) {
 
 	if len(args) < 1 {
 		return shim.Error("Incorrect number of arguments. Expecting 1")
@@ -420,5 +420,5 @@ func (t *SimpleChaincode) createOrUpdateAsset(stub shim.ChaincodeStubInterface, 
 
 	fmt.Printf("- getHistoryForAsset returning:\n%s\n", buffer.String())
 
-	return shim.Success(buffer.Bytes())
+	return buffer.Bytes(),nil
 }
