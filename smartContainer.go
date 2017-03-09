@@ -30,7 +30,6 @@ package main
 
 import (
     "bytes"
-	"strconv"	
     "encoding/json"
     "errors"
     "fmt"
@@ -423,6 +422,8 @@ func (t *SimpleChaincode) createOrUpdateAsset(stub shim.ChaincodeStubInterface, 
 	buffer.WriteString("]")
 
 	fmt.Printf("- getHistoryForAsset returning:\n%s\n", buffer.String())
-
-	return buffer.Bytes(),nil
+    
+    buf, err = json.Marshal(buffer.Bytes())
+	
+    return buf,nil
 }
