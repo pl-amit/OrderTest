@@ -29,7 +29,6 @@ version : v2.0
 package main
 
 import (
-    "bytes"
     "encoding/json"
     "errors"
     "fmt"
@@ -377,8 +376,7 @@ func (t *SimpleChaincode) createOrUpdateAsset(stub shim.ChaincodeStubInterface, 
 
  /*********************************** Get HistoryBlock for Asset *************************/
  func (t *SimpleChaincode) getHistoryForAsset(stub shim.ChaincodeStubInterface, args []string) ([]byte,error) {
-    var assetID string
-    
+ 
 	if len(args) < 1 {
 		return nil, errors.New("Incorrect number of arguments. Expecting 1")
 	}
@@ -387,7 +385,7 @@ func (t *SimpleChaincode) createOrUpdateAsset(stub shim.ChaincodeStubInterface, 
 
 	fmt.Printf("- start getHistoryForAsset: %s\n", assetID)
 
-	resultsIterator, err := stub.GetHistoryForKey(assetID)
+	resultsIterator, err := stub.GetHistoryForKey(args[0])
 
 	if err != nil {
 		//return shim.Error(err.Error())
