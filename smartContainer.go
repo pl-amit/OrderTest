@@ -138,7 +138,10 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
     } else if function == "deleteAsset" {
         // Deletes an asset by ID from the ledger
         return t.deleteAsset(stub, args)
-    }
+    }else if function == "getHistoryForAsset" { 
+        //get history of values for a asset
+		return t.getHistoryForAsset(stub, args)
+	}
     return nil, errors.New("Received unknown invocation: " + function)
 }
 
@@ -150,10 +153,7 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
     if function == "readAsset" {
         // gets the state for an assetID as a JSON struct
         return t.readAsset(stub, args)
-    }else if function == "getHistoryForAsset" { 
-        //get history of values for a asset
-		return t.getHistoryForAsset(stub, args)
-	}/* else if function =="readAssetObjectModel" {
+    }/* else if function =="readAssetObjectModel" {
         return t.readAssetObjectModel(stub, args)
     }  else if function == "readAssetSamples" {
 		// returns selected sample objects 
@@ -388,6 +388,7 @@ func (t *SimpleChaincode) createOrUpdateAsset(stub shim.ChaincodeStubInterface, 
 	fmt.Printf("- start getHistoryForAsset: %s\n", assetID)
 
 	resultsIterator, err := stub.GetHistoryForKey(assetID)
+
 	if err != nil {
 		return shim.Error(err.Error())
 	}
