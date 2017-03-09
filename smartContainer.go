@@ -137,10 +137,7 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
     } else if function == "deleteAsset" {
         // Deletes an asset by ID from the ledger
         return t.deleteAsset(stub, args)
-    } /*else if function == "getHistoryForAsset" {
-        // Deletes an asset by ID from the ledger
-        return t.getHistoryForAsset(stub, args)
-    }*/
+    }
     return nil, errors.New("Received unknown invocation: " + function)
 }
 
@@ -160,8 +157,8 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 	} else if function == "readAssetSchemas" {
 		// returns selected sample objects 
 		return t.readAssetSchemas(stub, args)
-	} else if function == "getHistoryForMarble" { //get history of values for a marble
-		return t.getHistoryForMarble(stub, args)
+	}else if function == "getHistoryForAsset" { //get history of values for a marble
+		return t.getHistoryForAsset(stub, args)
 	}
 
     return nil, errors.New("Received unknown invocation: " + function)
