@@ -34,9 +34,8 @@ import (
     "errors"
     "fmt"
     "strings"
-    "reflect"
+     "reflect"
     "github.com/hyperledger/fabric/core/chaincode/shim"
-    pb "github.com/hyperledger/fabric/protos/peer"
 )
 
 
@@ -138,22 +137,22 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
     } else if function == "deleteAsset" {
         // Deletes an asset by ID from the ledger
         return t.deleteAsset(stub, args)
-    }else if function == "readAsset" {
-        // gets the state for an assetID as a JSON struct
-        return t.readAsset(stub, args)
-    }
+    }else if function == "getHistoryForAsset" { 
+        //get history of values for a asset
+		return t.getHistoryForAsset(stub, args)
+	}
     return nil, errors.New("Received unknown invocation: " + function)
 }
 
 // ************************************
 // query callback mode 
 // ************************************
-func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function string, args []string) pb.Response {
+func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
     // Handle different functions
-    if function == "getHistoryForAsset" { 
-        //get history of values for a asset
-		return t.getHistoryForAsset(stub, args)
-	}/* else if function =="readAssetObjectModel" {
+    if function == "readAsset" {
+        // gets the state for an assetID as a JSON struct
+        return t.readAsset(stub, args)
+    }/* else if function =="readAssetObjectModel" {
         return t.readAssetObjectModel(stub, args)
     }  else if function == "readAssetSamples" {
 		// returns selected sample objects 
@@ -162,10 +161,8 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 		// returns selected sample objects 
 		return t.readAssetSchemas(stub, args)
 	}*/
-    errStr := fmt.Sprintf("Received unknown invocation: " + function)
-	fmt.Printf(errStr)
-    return shim.Error(errStr)
-    //return nil, errors.New("Received unknown invocation: " + function)
+
+    return nil, errors.New("Received unknown invocation: " + function)
 }
 
 /**********main implementation *************/
@@ -379,11 +376,10 @@ func (t *SimpleChaincode) createOrUpdateAsset(stub shim.ChaincodeStubInterface, 
  }
 
  /*********************************** Get HistoryBlock for Asset *************************/
- func (t *SimpleChaincode) getHistoryForAsset(stub shim.ChaincodeStubInterface, args []string) pb.Response {
+ func (t *SimpleChaincode) getHistoryForAsset(stub shim.ChaincodeStubInterface, args []string) ([]byte,error) {
  
 	if len(args) < 1 {
-	//	return nil, errors.New("Incorrect number of arguments. Expecting 1")
-    return shim.Error("Incorrect number of arguments. Expecting 1")
+		return nil, errors.New("Incorrect number of arguments. Expecting 1")
 	}
 
 	assetID := args[0]
@@ -393,8 +389,8 @@ func (t *SimpleChaincode) createOrUpdateAsset(stub shim.ChaincodeStubInterface, 
 	resultsIterator, err := stub.GetHistoryForKey(args[0])
 
 	if err != nil {
-		return shim.Error(err.Error())
-        //return nil, errors.New("Error in GetHistoryForKey")
+		//return shim.Error(err.Error())
+        return nil, errors.New("Error in GetHistoryForKey")
 	}
 	defer resultsIterator.Close()
 
@@ -406,8 +402,8 @@ func (t *SimpleChaincode) createOrUpdateAsset(stub shim.ChaincodeStubInterface, 
 	for resultsIterator.HasNext() {
 		txID, historicValue, err := resultsIterator.Next()
 		if err != nil {
-			return shim.Error(err.Error())
-            //return nil, err.Error()
+			//return shim.Error(err.Error())
+            return nil, err.Error()
 		}
 		// Add a comma before array asset, suppress it for the first array member
 		if bArrayMemberAlreadyWritten == true {
@@ -432,6 +428,5 @@ func (t *SimpleChaincode) createOrUpdateAsset(stub shim.ChaincodeStubInterface, 
 
     buf, err = json.Marshal(buffer.Bytes())
 	
-   // return buf,nil
-   return shim.Success(buffer.Bytes())
+    return buf,nil
 }
