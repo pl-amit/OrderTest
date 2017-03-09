@@ -35,6 +35,7 @@ import (
     "strings"
      "reflect"
     "github.com/hyperledger/fabric/core/chaincode/shim"
+    pb "github.com/hyperledger/fabric/protos/peer"
 )
 
 
@@ -136,10 +137,10 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
     } else if function == "deleteAsset" {
         // Deletes an asset by ID from the ledger
         return t.deleteAsset(stub, args)
-    } else if function == "getHistoryForAsset" {
+    } /*else if function == "getHistoryForAsset" {
         // Deletes an asset by ID from the ledger
         return t.getHistoryForAsset(stub, args)
-    }
+    }*/
     return nil, errors.New("Received unknown invocation: " + function)
 }
 
@@ -391,7 +392,7 @@ func (t *SimpleChaincode) createOrUpdateAsset(stub shim.ChaincodeStubInterface, 
 	}
 	defer resultsIterator.Close()
 
-	// buffer is a JSON array containing historic values for the marble
+	// buffer is a JSON array containing historic values for the asset
 	var buffer bytes.Buffer
 	buffer.WriteString("[")
 
@@ -401,7 +402,7 @@ func (t *SimpleChaincode) createOrUpdateAsset(stub shim.ChaincodeStubInterface, 
 		if err != nil {
 			return shim.Error(err.Error())
 		}
-		// Add a comma before array members, suppress it for the first array member
+		// Add a comma before array asset, suppress it for the first array member
 		if bArrayMemberAlreadyWritten == true {
 			buffer.WriteString(",")
 		}
@@ -411,14 +412,14 @@ func (t *SimpleChaincode) createOrUpdateAsset(stub shim.ChaincodeStubInterface, 
 		buffer.WriteString("\"")
 
 		buffer.WriteString(", \"Value\":")
-		// historicValue is a JSON marble, so we write as-is
+		// historicValue is a JSON Asset, so we write as-is
 		buffer.WriteString(string(historicValue))
 		buffer.WriteString("}")
 		bArrayMemberAlreadyWritten = true
 	}
 	buffer.WriteString("]")
 
-	fmt.Printf("- getHistoryForMarble returning:\n%s\n", buffer.String())
+	fmt.Printf("- getHistoryForAsset returning:\n%s\n", buffer.String())
 
 	return shim.Success(buffer.Bytes())
 }
