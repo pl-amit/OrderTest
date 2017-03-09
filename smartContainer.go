@@ -29,7 +29,7 @@ version : v2.0
 package main
 
 import (
-    "bytes"
+
     "encoding/json"
     "errors"
     "fmt"
@@ -137,10 +137,10 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
     } else if function == "deleteAsset" {
         // Deletes an asset by ID from the ledger
         return t.deleteAsset(stub, args)
-    }else if function == "getHistoryForAsset" { 
+    }/*else if function == "getHistoryForAsset" { 
         //get history of values for a asset
 		return t.getHistoryForAsset(stub, args)
-	}
+	}*/
     return nil, errors.New("Received unknown invocation: " + function)
 }
 
@@ -376,7 +376,7 @@ func (t *SimpleChaincode) createOrUpdateAsset(stub shim.ChaincodeStubInterface, 
  }
 
  /*********************************** Get HistoryBlock for Asset *************************/
- func (t *SimpleChaincode) getHistoryForAsset(stub shim.ChaincodeStubInterface, args []string) ([]byte,error) {
+/* func (t *SimpleChaincode) getHistoryForAsset(stub shim.ChaincodeStubInterface, args []string) ([]byte,error) {
  
 	if len(args) < 1 {
 		return nil, errors.New("Incorrect number of arguments. Expecting 1")
@@ -429,4 +429,4 @@ func (t *SimpleChaincode) createOrUpdateAsset(stub shim.ChaincodeStubInterface, 
     buf, err = json.Marshal(buffer.Bytes())
 	
     return buf,nil
-}
+} */
