@@ -424,5 +424,9 @@ func (t *SimpleChaincode) createOrUpdateAsset(stub shim.ChaincodeStubInterface, 
 
 	fmt.Printf("- getHistoryForAsset returning:\n%s\n", buffer.String())
     
-    return json.Marshal(buffer.Bytes()),nil
+    var buf []byte
+    
+    buf, err = json.Marshal(buffer.Bytes())
+	
+    return buf,nil
 }
