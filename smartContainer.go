@@ -389,7 +389,8 @@ func (t *SimpleChaincode) createOrUpdateAsset(stub shim.ChaincodeStubInterface, 
 	resultsIterator, err := stub.GetHistoryForKey(assetID)
 
 	if err != nil {
-		return shim.Error(err.Error())
+		//return shim.Error(err.Error())
+        return nil, errors.New("Error in GetHistoryForKey")
 	}
 	defer resultsIterator.Close()
 
@@ -423,7 +424,5 @@ func (t *SimpleChaincode) createOrUpdateAsset(stub shim.ChaincodeStubInterface, 
 
 	fmt.Printf("- getHistoryForAsset returning:\n%s\n", buffer.String())
     
-    buf, err = json.Marshal(buffer.Bytes())
-	
-    return buf,nil
+    return json.Marshal(buffer.Bytes()),nil
 }
