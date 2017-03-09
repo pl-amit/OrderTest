@@ -1,4 +1,7 @@
+package main
 
+var schemas = `
+{
     "API": {
         "createAsset": {
             "description": "Create an asset. One argument, a JSON encoded event. AssetID is required with zero or more writable properties. Establishes an initial asset state.",
@@ -738,3 +741,4 @@
             "type": "object"
         }
     }
+}
