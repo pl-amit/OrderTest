@@ -99,7 +99,7 @@ var contractState = ContractState{MYVERSION}
 // ************************************
 // deploy callback mode 
 // ************************************
-func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string, args []string) pb.Response {
+func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
     var stateArg ContractState
     var err error
     if len(args) != 1 {
