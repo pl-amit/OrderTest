@@ -382,7 +382,8 @@ func (t *SimpleChaincode) createOrUpdateAsset(stub shim.ChaincodeStubInterface, 
  func (t *SimpleChaincode) getHistoryForAsset(stub shim.ChaincodeStubInterface, args []string) pb.Response {
  
 	if len(args) < 1 {
-		return nil, errors.New("Incorrect number of arguments. Expecting 1")
+	//	return nil, errors.New("Incorrect number of arguments. Expecting 1")
+    return shim.Error("Incorrect number of arguments. Expecting 1")
 	}
 
 	assetID := args[0]
@@ -392,8 +393,8 @@ func (t *SimpleChaincode) createOrUpdateAsset(stub shim.ChaincodeStubInterface, 
 	resultsIterator, err := stub.GetHistoryForKey(args[0])
 
 	if err != nil {
-		//return shim.Error(err.Error())
-        return nil, errors.New("Error in GetHistoryForKey")
+		return shim.Error(err.Error())
+        //return nil, errors.New("Error in GetHistoryForKey")
 	}
 	defer resultsIterator.Close()
 
@@ -405,8 +406,8 @@ func (t *SimpleChaincode) createOrUpdateAsset(stub shim.ChaincodeStubInterface, 
 	for resultsIterator.HasNext() {
 		txID, historicValue, err := resultsIterator.Next()
 		if err != nil {
-			//return shim.Error(err.Error())
-            return nil, err.Error()
+			return shim.Error(err.Error())
+            //return nil, err.Error()
 		}
 		// Add a comma before array asset, suppress it for the first array member
 		if bArrayMemberAlreadyWritten == true {
