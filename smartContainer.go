@@ -62,7 +62,7 @@ type Geolocation struct {
 }*/
 
 type AssetState struct {
-AssetID         		*string      `json:"ORDERID,omitempty"`        // all assets must have an ID, primary key of contract
+AssetID         		*string       `json:"ORDERID,omitempty"`        // all assets must have an ID, primary key of contract
 Status          		*string       `json:"STATUS,omitempty"`    		  // Container status
 
 Role            		*string       `json:"ROLE,omitempty"`
@@ -71,14 +71,14 @@ Ownername            	*string       `json:"OWNERNAME,omitempty"`
 Ownerid            		*string       `json:"OWNERID,omitempty"`
 Overallstatus           *string       `json:"OVERALLSTATUS,omitempty"`
 
-Latitude 			    *float64  	  `json:"LATITUDE,omitempty"`			// current asset location
-Longitude   			*float64  	  `json:"LONGITUDE,omitempty"`			// current asset location	
+Latitude 			    *string  	  `json:"LATITUDE,omitempty"`			// current asset location
+Longitude   			*string  	  `json:"LONGITUDE,omitempty"`			// current asset location	
 
-Luminosity   			*float64  	  `json:"LUMINOSITY,omitempty"`
-Humidity   				*float64  	  `json:"HUMIDITY,omitempty"`
-Vibration				*float64 	  `json:"VIBRATION,omitempty"`
-Pressure   				*float64  	  `json:"PRESSURE,omitempty"`
-Temperature   			*float64  	  `json:"TEMPERATURE,omitempty"`
+Luminosity   			*string  	  `json:"LUMINOSITY,omitempty"`
+Humidity   				*string  	  `json:"HUMIDITY,omitempty"`
+Vibration				*string 	  `json:"VIBRATION,omitempty"`
+Pressure   				*string  	  `json:"PRESSURE,omitempty"`
+Temperature   			*string  	  `json:"TEMPERATURE,omitempty"`
 
 Time   					*string 	  `json:"TIME,omitempty"`
 Timestamp   			*string 	  `json:"TIMESTAMP,omitempty"`
@@ -87,7 +87,7 @@ Orderid   				*string  	  `json:"ORDERID,omitempty"`
 Container				*string		  `json:"CONTAINER,omitempty"`
 Orderdate   			*string 	  `json:"ORDERDATE,omitempty"`
 Content   				*string 	  `json:"CONTENT,omitempty"`
-Health   				*float64  	  `json:"HEALTH,omitempty"`
+Health   				*string  	  `json:"HEALTH,omitempty"`
 Customername   			*string 	  `json:"CUSTOMERNAME,omitempty"`
 Destination   			*string 	  `json:"DESTINATION,omitempty"`
 Country   				*string 	  `json:"COUNTRY,omitempty"`
@@ -152,7 +152,7 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
     if function == "readAsset" {
         // gets the state for an assetID as a JSON struct
         return t.readAsset(stub, args)
-    }/* else if function =="readAssetObjectModel" {
+    } else if function =="readAssetObjectModel" {
         return t.readAssetObjectModel(stub, args)
     }  else if function == "readAssetSamples" {
 		// returns selected sample objects 
@@ -160,7 +160,7 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 	} else if function == "readAssetSchemas" {
 		// returns selected sample objects 
 		return t.readAssetSchemas(stub, args)
-	}*/
+	}
 
     return nil, errors.New("Received unknown invocation: " + function)
 }
@@ -245,7 +245,7 @@ func (t *SimpleChaincode) readAsset(stub shim.ChaincodeStubInterface, args []str
 }
 
 //*************readAssetObjectModel*****************/
-/*
+
 func (t *SimpleChaincode) readAssetObjectModel(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
     var state AssetState = AssetState{}
 
@@ -256,19 +256,18 @@ func (t *SimpleChaincode) readAssetObjectModel(stub shim.ChaincodeStubInterface,
     }
     return stateJSON, nil
 }
-*/
+
 //*************readAssetSamples*******************/
-/*
+
 func (t *SimpleChaincode) readAssetSamples(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	return []byte(samples), nil
 } 
-*/
+
 //*************readAssetSchemas*******************/
-/*
+
 func (t *SimpleChaincode) readAssetSchemas(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	return []byte(schemas), nil
 }
-*/
 // ************************************
 // validate input data : common method called by the CRUD functions
 // ************************************
