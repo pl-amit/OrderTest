@@ -99,7 +99,7 @@ var contractState = ContractState{MYVERSION}
 // ************************************
 // deploy callback mode 
 // ************************************
-func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
+func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string, args []string) pb.Response {
     var stateArg ContractState
     var err error
     if len(args) != 1 {
@@ -149,7 +149,7 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
     if function == "readAsset" {
         // gets the state for an assetID as a JSON struct
         return t.readAsset(stub, args)
-    } else if function =="readAssetObjectModel" {
+    }/* else if function =="readAssetObjectModel" {
         return t.readAssetObjectModel(stub, args)
     }  else if function == "readAssetSamples" {
 		// returns selected sample objects 
@@ -157,7 +157,8 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 	} else if function == "readAssetSchemas" {
 		// returns selected sample objects 
 		return t.readAssetSchemas(stub, args)
-	}else if function == "getHistoryForAsset" { //get history of values for a marble
+	}*/else if function == "getHistoryForAsset" { 
+        //get history of values for a asset
 		return t.getHistoryForAsset(stub, args)
 	}
 
@@ -195,7 +196,7 @@ func (t *SimpleChaincode) updateAsset(stub shim.ChaincodeStubInterface, args []s
 //******************** deleteAsset ********************/
 
 func (t *SimpleChaincode) deleteAsset(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
-    var assetID string // asset ID
+    var assetID float64 // asset ID
     var err error
     var stateIn AssetState
 
@@ -219,7 +220,7 @@ func (t *SimpleChaincode) deleteAsset(stub shim.ChaincodeStubInterface, args []s
 //********************readAsset********************/
 
 func (t *SimpleChaincode) readAsset(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
-    var assetID string // asset ID
+    var assetID float64 // asset ID
     var err error
     var state AssetState
 
@@ -244,7 +245,7 @@ func (t *SimpleChaincode) readAsset(stub shim.ChaincodeStubInterface, args []str
 }
 
 //*************readAssetObjectModel*****************/
-
+/*
 func (t *SimpleChaincode) readAssetObjectModel(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
     var state AssetState = AssetState{}
 
@@ -255,22 +256,24 @@ func (t *SimpleChaincode) readAssetObjectModel(stub shim.ChaincodeStubInterface,
     }
     return stateJSON, nil
 }
+*/
 //*************readAssetSamples*******************/
-
+/*
 func (t *SimpleChaincode) readAssetSamples(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	return []byte(samples), nil
-}
+} 
+*/
 //*************readAssetSchemas*******************/
-
+/*
 func (t *SimpleChaincode) readAssetSchemas(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	return []byte(schemas), nil
 }
-
+*/
 // ************************************
 // validate input data : common method called by the CRUD functions
 // ************************************
 func (t *SimpleChaincode) validateInput(args []string) (stateIn AssetState, err error) {
-    var assetID string // asset ID
+    var assetID float64 // asset ID
     var state AssetState = AssetState{} // The calling function is expecting an object of type AssetState
 
     if len(args) !=1 {
@@ -291,7 +294,7 @@ func (t *SimpleChaincode) validateInput(args []string) (stateIn AssetState, err 
     // If no value comes in from the json input string, the values are set to nil
     
     if stateIn.AssetID !=nil { 
-        assetID = strings.TrimSpace(*stateIn.AssetID)
+        assetID = (*stateIn.AssetID)
         if assetID==""{
             err = errors.New("AssetID not passed")
             return state, err
@@ -308,7 +311,7 @@ func (t *SimpleChaincode) validateInput(args []string) (stateIn AssetState, err 
 //******************** createOrUpdateAsset ********************/
 
 func (t *SimpleChaincode) createOrUpdateAsset(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
-    var assetID string                 // asset ID                    // used when looking in map
+    var assetID float64                 // asset ID                    // used when looking in map
     var err error
     var stateIn AssetState
     var stateStub AssetState
