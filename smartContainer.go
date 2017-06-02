@@ -1,12 +1,19 @@
 /*******************************************************************************
 Copyright (c) 2016 IBM Corporation and other Contributors.
+
+
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
+
     http://www.apache.org/licenses/LICENSE-2.0
+
 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and limitations under the License.
+
+
 Contributors:
+
 Sumabala Nair - Initial Contribution
 Kim Letkeman - Initial Contribution
 Sumabala Nair - Updated for hyperledger May 2016
@@ -19,17 +26,9 @@ Sumabala Nair - Partial updates added May 2016
 // This is a simple contract that creates a CRUD interface to 
 // create, read, update and delete an asset
 
-/*******************************************************************************
-Aim : Modify/amend existing code for adopting smartcontainer application
-Developed By : Amit Patil 
-Date : 08-March-2017
-version : v2.0
-********************************************************************************/
-
 package main
 
 import (
-
     "encoding/json"
     "errors"
     "fmt"
@@ -52,47 +51,25 @@ const MYVERSION string = "1.0"
 // ************************************
 
 type ContractState struct {
-    Version      string `json:"version"`
+    Version      string                        `json:"version"`
 }
 
-/*
 type Geolocation struct {
     Latitude    *string `json:"latitude,omitempty"`
     Longitude   *string `json:"longitude,omitempty"`
-}*/
-
-type AssetState struct {
-AssetID         		*string       `json:"ORDERID,omitempty"`        // all assets must have an ID, primary key of contract
-Status          		*string       `json:"STATUS,omitempty"`    		  // Container status
-
-Role            		*string       `json:"ROLE,omitempty"`
-Lastowner				*string 	  `json:"LASTOWNER,omitempty"`
-Ownername            	*string       `json:"OWNERNAME,omitempty"`
-Ownerid            		*string       `json:"OWNERID,omitempty"`
-Overallstatus           *string       `json:"OVERALLSTATUS,omitempty"`
-
-Latitude 			    *string  	  `json:"LATITUDE,omitempty"`			// current asset location
-Longitude   			*string  	  `json:"LONGITUDE,omitempty"`			// current asset location	
-
-Luminosity   			*string  	  `json:"LUMINOSITY,omitempty"`
-Humidity   				*string  	  `json:"HUMIDITY,omitempty"`
-Vibration				*string 	  `json:"VIBRATION,omitempty"`
-Pressure   				*string  	  `json:"PRESSURE,omitempty"`
-Temperature   			*string  	  `json:"TEMPERATURE,omitempty"`
-
-Time   					*string 	  `json:"TIME,omitempty"`
-Timestamp   			*string 	  `json:"TIMESTAMP,omitempty"`
-
-Orderid   				*string  	  `json:"ORDERID,omitempty"`
-Container				*string		  `json:"CONTAINER,omitempty"`
-Orderdate   			*string 	  `json:"ORDERDATE,omitempty"`
-Content   				*string 	  `json:"CONTENT,omitempty"`
-Health   				*string  	  `json:"HEALTH,omitempty"`
-Customername   			*string 	  `json:"CUSTOMERNAME,omitempty"`
-Destination   			*string 	  `json:"DESTINATION,omitempty"`
-Country   				*string 	  `json:"COUNTRY,omitempty"`
 }
-
+type AssetState struct {
+    AssetID         		*string       `json:"assetID,omitempty"`        // all assets must have an ID, primary key of contract
+    Location        		*Geolocation  `json:"location,omitempty"`       // current asset location
+    Status          		*string       `json:"assetstatus,omitempty"`        // the name of the carrier
+	Role            		*string       `json:"role,omitempty"`
+	Lastowner				*string 	  `json:"lastowner,omitempty"`
+	Health				*string 	  `json:"health,omitempty"`
+	Ownername            	*string       `json:"ownername,omitempty"`
+	Ownerid            		*string       `json:"ownerid,omitempty"`
+	Overallstatus           *string       `json:"overallstatus,omitempty"`
+	
+}
 var contractState = ContractState{MYVERSION}
 
 
@@ -137,10 +114,7 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
     } else if function == "deleteAsset" {
         // Deletes an asset by ID from the ledger
         return t.deleteAsset(stub, args)
-    }/*else if function == "getHistoryForAsset" { 
-        //get history of values for a asset
-		return t.getHistoryForAsset(stub, args)
-	}*/
+    }
     return nil, errors.New("Received unknown invocation: " + function)
 }
 
@@ -161,7 +135,6 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 		// returns selected sample objects 
 		return t.readAssetSchemas(stub, args)
 	}
-
     return nil, errors.New("Received unknown invocation: " + function)
 }
 
@@ -256,18 +229,17 @@ func (t *SimpleChaincode) readAssetObjectModel(stub shim.ChaincodeStubInterface,
     }
     return stateJSON, nil
 }
-
 //*************readAssetSamples*******************/
 
 func (t *SimpleChaincode) readAssetSamples(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	return []byte(samples), nil
-} 
-
+}
 //*************readAssetSchemas*******************/
 
 func (t *SimpleChaincode) readAssetSchemas(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	return []byte(schemas), nil
 }
+
 // ************************************
 // validate input data : common method called by the CRUD functions
 // ************************************
@@ -293,7 +265,7 @@ func (t *SimpleChaincode) validateInput(args []string) (stateIn AssetState, err 
     // If no value comes in from the json input string, the values are set to nil
     
     if stateIn.AssetID !=nil { 
-        assetID = (*stateIn.AssetID)
+        assetID = strings.TrimSpace(*stateIn.AssetID)
         if assetID==""{
             err = errors.New("AssetID not passed")
             return state, err
@@ -322,7 +294,7 @@ func (t *SimpleChaincode) createOrUpdateAsset(stub shim.ChaincodeStubInterface, 
     if err != nil {
         return nil, err
     }
-    assetID = strings.TrimSpace(*stateIn.AssetID)
+    assetID = *stateIn.AssetID
     // Partial updates introduced here
     // Check if asset record existed in stub
     assetBytes, err:= stub.GetState(assetID)
@@ -373,59 +345,3 @@ func (t *SimpleChaincode) createOrUpdateAsset(stub shim.ChaincodeStubInterface, 
     }
     return oldState, nil
  }
-
- /*********************************** Get HistoryBlock for Asset *************************/
-/* func (t *SimpleChaincode) getHistoryForAsset(stub shim.ChaincodeStubInterface, args []string) ([]byte,error) {
- 
-	if len(args) < 1 {
-		return nil, errors.New("Incorrect number of arguments. Expecting 1")
-	}
-
-	assetID := args[0]
-
-	fmt.Printf("- start getHistoryForAsset: %s\n", assetID)
-
-	resultsIterator, err := stub.GetHistoryForKey(args[0])
-
-	if err != nil {
-		//return shim.Error(err.Error())
-        return nil, errors.New("Error in GetHistoryForKey")
-	}
-	defer resultsIterator.Close()
-
-	// buffer is a JSON array containing historic values for the asset
-	var buffer bytes.Buffer
-	buffer.WriteString("[")
-
-	bArrayMemberAlreadyWritten := false
-	for resultsIterator.HasNext() {
-		txID, historicValue, err := resultsIterator.Next()
-		if err != nil {
-			//return shim.Error(err.Error())
-            return nil, err.Error()
-		}
-		// Add a comma before array asset, suppress it for the first array member
-		if bArrayMemberAlreadyWritten == true {
-			buffer.WriteString(",")
-		}
-		buffer.WriteString("{\"assetID\":")
-		buffer.WriteString("\"")
-		buffer.WriteString(txID)
-		buffer.WriteString("\"")
-
-		buffer.WriteString(", \"Value\":")
-		// historicValue is a JSON Asset, so we write as-is
-		buffer.WriteString(string(historicValue))
-		buffer.WriteString("}")
-		bArrayMemberAlreadyWritten = true
-	}
-	buffer.WriteString("]")
-
-	fmt.Printf("- getHistoryForAsset returning:\n%s\n", buffer.String())
-    
-    var buf []byte
-
-    buf, err = json.Marshal(buffer.Bytes())
-	
-    return buf,nil
-} */
