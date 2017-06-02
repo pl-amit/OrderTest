@@ -11,102 +11,50 @@ var schemas = `
                     "items": {
                         "description": "A set of fields that constitute the writable fields in an asset's state. AssetID is mandatory along with at least one writable field. In this contract pattern, a partial state is used as an event.",
                         "properties": {
-                        "assetID": {
-							"description": "The ID of a managed asset. The resource focal point for a smart contract.",
-							"type": "string"
-						},
-						"status": {
-							"description": "It will show container status",
-							"type": "string"
-						},
-						"role": {
-							"description": "Person Role",
-							"type": "string"
-						},
-						"lastowner": {
-							"description": "The Last owner",
-							"type": "string"
-						},
-						"ownername": {
-							"description": "The current Owner",
-							"type": "string"
-						},
-						"ownerid": {
-							"description": "Current owner ID",
-							"type": "string"
-						},
-						"overallstatus": {
-							"description": "Overall Status",
-							"type": "string"
-						},
-						"latitude": {
-							"description": "Current Latitude",
-							"type": "string"
-						},
-						"longitude": {
-							"description": "Current Latitude",
-							"type": "string"
-						},
-						"luminosity": {
-							"description": "Luminosity",
-							"type": "string"
-						},
-						"humidity": {
-							"description": "Humidity",
-							"type": "string"
-						},
-						"vibration": {
-							"description": "Vibration",
-							"type": "string"
-						},
-						"pressure": {
-							"description": "Pressure",
-							"type": "string"
-						},
-						"temperature": {
-							"description": "Temperature",
-							"type": "string"
-						},
-						"time": {
-							"description": "Time",
-							"type": "string"
-						},
-						"timestamp": {
-							"description": "Timestamp",
-							"type": "string"
-						},
-						"orderid": {
-							"description": "order id",
-							"type": "string"
-						},
-						"container": {
-							"description": "Container id",
-							"type": "string"
-						},
-						"orderdate": {
-							"description": "Orderdate",
-							"type": "string"
-						},
-						"content": {
-							"description": "Content",
-							"type": "string"
-						},
-						"health": {
-							"description": "Health",
-							"type": "string"
-						},
-						"customername": {
-							"description": "Customer Name",
-							"type": "string"
-						},
-						"destination": {
-							"description": "Destination where to deliver order",
-							"type": "string"
-						},
-						"country": {
-							"description": "Country",
-							"type": "string"
-						}
+                            "assetID": {
+                                "description": "The ID of a managed asset. The resource focal point for a smart contract.",
+                                "type": "string"
+                            },
+                            "assetstatus": {
+                                "description": "transport entity currently in possession of asset",
+                                "type": "string"
+                            },
+                            "location": {
+                                "description": "A geographical coordinate",
+                                "properties": {
+                                    "latitude": {
+                                        "type": "string"
+                                    },
+                                    "longitude": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            },
+							 "role": {
+                                "description": "person role",
+                                "type": "string"
+                            },
+							 "lastowner": {
+                                "description": "lastowner name",
+                                "type": "string"
+                            },
+							 "health": {
+                                "description": "overall health",
+                                "type": "string"
+                            },
+							 "ownername": {
+                                "description": "ownername",
+                                "type": "string"
+                            },
+							 "ownerid": {
+                                "description": "ownerid",
+                                "type": "string"
+                            },
+							 "overallstatus": {
+                                "description": "overallstatus",
+                                "type": "string"
+                            }
                         },
                         "required": [
                             "assetID"
@@ -227,101 +175,48 @@ var schemas = `
                     "description": "A set of fields that constitute the complete asset state.",
                     "properties": {
                         "assetID": {
-							"description": "The ID of a managed asset. The resource focal point for a smart contract.",
-							"type": "string"
-						},
-						"status": {
-							"description": "It will show container status",
-							"type": "string"
-						},
-						"role": {
-							"description": "Person Role",
-							"type": "string"
-						},
-						"lastowner": {
-							"description": "The Last owner",
-							"type": "string"
-						},
-						"ownername": {
-							"description": "The current Owner",
-							"type": "string"
-						},
-						"ownerid": {
-							"description": "Current owner ID",
-							"type": "string"
-						},
-						"overallstatus": {
-							"description": "Overall Status",
-							"type": "string"
-						},
-						"latitude": {
-							"description": "Current Latitude",
-							"type": "string"
-						},
-						"longitude": {
-							"description": "Current Latitude",
-							"type": "string"
-						},
-						"luminosity": {
-							"description": "Luminosity",
-							"type": "string"
-						},
-						"humidity": {
-							"description": "Humidity",
-							"type": "string"
-						},
-						"vibration": {
-							"description": "Vibration",
-							"type": "string"
-						},
-						"pressure": {
-							"description": "Pressure",
-							"type": "string"
-						},
-						"temperature": {
-							"description": "Temperature",
-							"type": "string"
-						},
-						"time": {
-							"description": "Time",
-							"type": "string"
-						},
-						"timestamp": {
-							"description": "Timestamp",
-							"type": "string"
-						},
-						"orderid": {
-							"description": "order id",
-							"type": "string"
-						},
-						"container": {
-							"description": "Container id",
-							"type": "string"
-						},
-						"orderdate": {
-							"description": "Orderdate",
-							"type": "string"
-						},
-						"content": {
-							"description": "Content",
-							"type": "string"
-						},
-						"health": {
-							"description": "Health",
-							"type": "string"
-						},
-						"customername": {
-							"description": "Customer Name",
-							"type": "string"
-						},
-						"destination": {
-							"description": "Destination where to deliver order",
-							"type": "string"
-						},
-						"country": {
-							"description": "Country",
-							"type": "string"
-						}
+                            "description": "The ID of a managed asset. The resource focal point for a smart contract.",
+                            "type": "string"
+                        },
+                        "assetstatus": {
+                            "description": "transport entity currently in possession of asset",
+                            "type": "string"
+                        },
+                        "location": {
+                            "description": "A geographical coordinate",
+                            "properties": {
+                                "latitude": {
+                                    "type": "string"
+                                },
+                                "longitude": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        },
+							 "role": {
+                                "description": "person role",
+                                "type": "string"
+                            },"lastowner": {
+                                "description": "lastowner name",
+                                "type": "string"
+                            },
+							 "health": {
+                                "description": "overall health",
+                                "type": "string"
+                            },
+							 "ownername": {
+                                "description": "ownername",
+                                "type": "string"
+                            },
+							 "ownerid": {
+                                "description": "ownerid",
+                                "type": "string"
+                            },
+							 "overallstatus": {
+                                "description": "overallstatus",
+                                "type": "string"
+                            }
                     },
                     "type": "object"
                 }
@@ -386,102 +281,50 @@ var schemas = `
                     "items": {
                         "description": "A set of fields that constitute the writable fields in an asset's state. AssetID is mandatory along with at least one writable field. In this contract pattern, a partial state is used as an event.",
                         "properties": {
-                        "assetID": {
-							"description": "The ID of a managed asset. The resource focal point for a smart contract.",
-							"type": "string"
-						},
-						"status": {
-							"description": "It will show container status",
-							"type": "string"
-						},
-						"role": {
-							"description": "Person Role",
-							"type": "string"
-						},
-						"lastowner": {
-							"description": "The Last owner",
-							"type": "string"
-						},
-						"ownername": {
-							"description": "The current Owner",
-							"type": "string"
-						},
-						"ownerid": {
-							"description": "Current owner ID",
-							"type": "string"
-						},
-						"overallstatus": {
-							"description": "Overall Status",
-							"type": "string"
-						},
-						"latitude": {
-							"description": "Current Latitude",
-							"type": "string"
-						},
-						"longitude": {
-							"description": "Current Latitude",
-							"type": "string"
-						},
-						"luminosity": {
-							"description": "Luminosity",
-							"type": "string"
-						},
-						"humidity": {
-							"description": "Humidity",
-							"type": "string"
-						},
-						"vibration": {
-							"description": "Vibration",
-							"type": "string"
-						},
-						"pressure": {
-							"description": "Pressure",
-							"type": "string"
-						},
-						"temperature": {
-							"description": "Temperature",
-							"type": "string"
-						},
-						"time": {
-							"description": "Time",
-							"type": "string"
-						},
-						"timestamp": {
-							"description": "Timestamp",
-							"type": "string"
-						},
-						"orderid": {
-							"description": "order id",
-							"type": "string"
-						},
-						"container": {
-							"description": "Container id",
-							"type": "string"
-						},
-						"orderdate": {
-							"description": "Orderdate",
-							"type": "string"
-						},
-						"content": {
-							"description": "Content",
-							"type": "string"
-						},
-						"health": {
-							"description": "Health",
-							"type": "string"
-						},
-						"customername": {
-							"description": "Customer Name",
-							"type": "string"
-						},
-						"destination": {
-							"description": "Destination where to deliver order",
-							"type": "string"
-						},
-						"country": {
-							"description": "Country",
-							"type": "string"
-						}
+                            "assetID": {
+                                "description": "The ID of a managed asset. The resource focal point for a smart contract.",
+                                "type": "string"
+                            },
+                            "assetstatus": {
+                                "description": "transport entity currently in possession of asset",
+                                "type": "string"
+                            },
+                            "location": {
+                                "description": "A geographical coordinate",
+                                "properties": {
+                                    "latitude": {
+                                        "type": "string"
+                                    },
+                                    "longitude": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            },
+							 "role": {
+                                "description": "person role",
+                                "type": "string"
+                            },
+							"lastowner": {
+                                "description": "lastowner name",
+                                "type": "string"
+                            },
+							 "health": {
+                                "description": "overall health",
+                                "type": "string"
+                            },
+							 "ownername": {
+                                "description": "ownername",
+                                "type": "string"
+                            },
+							 "ownerid": {
+                                "description": "ownerid",
+                                "type": "string"
+                            },
+							 "overallstatus": {
+                                "description": "overallstatus",
+                                "type": "string"
+                            }
                         },
                         "required": [
                             "assetID"
@@ -519,101 +362,49 @@ var schemas = `
             "description": "A set of fields that constitute the writable fields in an asset's state. AssetID is mandatory along with at least one writable field. In this contract pattern, a partial state is used as an event.",
             "properties": {
                 "assetID": {
-							"description": "The ID of a managed asset. The resource focal point for a smart contract.",
-							"type": "string"
-						},
-						"status": {
-							"description": "It will show container status",
-							"type": "string"
-						},
-						"role": {
-							"description": "Person Role",
-							"type": "string"
-						},
-						"lastowner": {
-							"description": "The Last owner",
-							"type": "string"
-						},
-						"ownername": {
-							"description": "The current Owner",
-							"type": "string"
-						},
-						"ownerid": {
-							"description": "Current owner ID",
-							"type": "string"
-						},
-						"overallstatus": {
-							"description": "Overall Status",
-							"type": "string"
-						},
-						"latitude": {
-							"description": "Current Latitude",
-							"type": "string"
-						},
-						"longitude": {
-							"description": "Current Latitude",
-							"type": "string"
-						},
-						"luminosity": {
-							"description": "Luminosity",
-							"type": "string"
-						},
-						"humidity": {
-							"description": "Humidity",
-							"type": "string"
-						},
-						"vibration": {
-							"description": "Vibration",
-							"type": "string"
-						},
-						"pressure": {
-							"description": "Pressure",
-							"type": "string"
-						},
-						"temperature": {
-							"description": "Temperature",
-							"type": "string"
-						},
-						"time": {
-							"description": "Time",
-							"type": "string"
-						},
-						"timestamp": {
-							"description": "Timestamp",
-							"type": "string"
-						},
-						"orderid": {
-							"description": "order id",
-							"type": "string"
-						},
-						"container": {
-							"description": "Container id",
-							"type": "string"
-						},
-						"orderdate": {
-							"description": "Orderdate",
-							"type": "string"
-						},
-						"content": {
-							"description": "Content",
-							"type": "string"
-						},
-						"health": {
-							"description": "Health",
-							"type": "string"
-						},
-						"customername": {
-							"description": "Customer Name",
-							"type": "string"
-						},
-						"destination": {
-							"description": "Destination where to deliver order",
-							"type": "string"
-						},
-						"country": {
-							"description": "Country",
-							"type": "string"
-						}
+                    "description": "The ID of a managed asset. The resource focal point for a smart contract.",
+                    "type": "string"
+                },
+                "assetstatus": {
+                    "description": "transport entity currently in possession of asset",
+                    "type": "string"
+                },
+                "location": {
+                    "description": "A geographical coordinate",
+                    "properties": {
+                        "latitude": {
+                            "type": "string"
+                        },
+                        "longitude": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+							 "role": {
+                                "description": "person role",
+                                "type": "string"
+                            },
+							"lastowner": {
+                                "description": "lastowner name",
+                                "type": "string"
+                            },
+							 "health": {
+                                "description": "overall health",
+                                "type": "string"
+                            },
+							 "ownername": {
+                                "description": "ownername",
+                                "type": "string"
+                            },
+							 "ownerid": {
+                                "description": "ownerid",
+                                "type": "string"
+                            },
+							 "overallstatus": {
+                                "description": "overallstatus",
+                                "type": "string"
+                            }
             },
             "required": [
                 "assetID"
@@ -641,102 +432,50 @@ var schemas = `
         "state": {
             "description": "A set of fields that constitute the complete asset state.",
             "properties": {
-"assetID": {
-							"description": "The ID of a managed asset. The resource focal point for a smart contract.",
-							"type": "string"
-						},
-						"status": {
-							"description": "It will show container status",
-							"type": "string"
-						},
-						"role": {
-							"description": "Person Role",
-							"type": "string"
-						},
-						"lastowner": {
-							"description": "The Last owner",
-							"type": "string"
-						},
-						"ownername": {
-							"description": "The current Owner",
-							"type": "string"
-						},
-						"ownerid": {
-							"description": "Current owner ID",
-							"type": "string"
-						},
-						"overallstatus": {
-							"description": "Overall Status",
-							"type": "string"
-						},
-						"latitude": {
-							"description": "Current Latitude",
-							"type": "string"
-						},
-						"longitude": {
-							"description": "Current Latitude",
-							"type": "string"
-						},
-						"luminosity": {
-							"description": "Luminosity",
-							"type": "string"
-						},
-						"humidity": {
-							"description": "Humidity",
-							"type": "string"
-						},
-						"vibration": {
-							"description": "Vibration",
-							"type": "string"
-						},
-						"pressure": {
-							"description": "Pressure",
-							"type": "string"
-						},
-						"temperature": {
-							"description": "Temperature",
-							"type": "string"
-						},
-						"time": {
-							"description": "Time",
-							"type": "string"
-						},
-						"timestamp": {
-							"description": "Timestamp",
-							"type": "string"
-						},
-						"orderid": {
-							"description": "order id",
-							"type": "string"
-						},
-						"container": {
-							"description": "Container id",
-							"type": "string"
-						},
-						"orderdate": {
-							"description": "Orderdate",
-							"type": "string"
-						},
-						"content": {
-							"description": "Content",
-							"type": "string"
-						},
-						"health": {
-							"description": "Health",
-							"type": "string"
-						},
-						"customername": {
-							"description": "Customer Name",
-							"type": "string"
-						},
-						"destination": {
-							"description": "Destination where to deliver order",
-							"type": "string"
-						},
-						"country": {
-							"description": "Country",
-							"type": "string"
-						}
+                "assetID": {
+                    "description": "The ID of a managed asset. The resource focal point for a smart contract.",
+                    "type": "string"
+                },
+                "assetstatus": {
+                    "description": "transport entity currently in possession of asset",
+                    "type": "string"
+                },
+                "location": {
+                    "description": "A geographical coordinate",
+                    "properties": {
+                        "latitude": {
+                            "type": "string"
+                        },
+                        "longitude": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+							 "role": {
+                                "description": "person role",
+                                "type": "string"
+                            },
+							"lastowner": {
+                                "description": "lastowner name",
+                                "type": "string"
+                            },
+							 "health": {
+                                "description": "overall health",
+                                "type": "string"
+                            },
+							 "ownername": {
+                                "description": "ownername",
+                                "type": "string"
+                            },
+							 "ownerid": {
+                                "description": "ownerid",
+                                "type": "string"
+                            },
+							 "overallstatus": {
+                                "description": "overallstatus",
+                                "type": "string"
+                            }
             },
             "type": "object"
         }
