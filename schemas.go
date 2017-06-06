@@ -223,6 +223,94 @@ var schemas = `
             },
             "type": "object"
         },
+        "readAssetHistory": {
+            "description": "Requests a specified number of history states for an assets. Returns an array of states sorted with the most recent first. AssetID is required and count is optional. A missing count, a count of zero, or too large a count returns all existing history states.",
+            "properties": {
+                "args": {
+                    "description": "args are JSON encoded strings",
+                    "items": {
+                        "description": "Requested assetID",
+                        "properties": {
+                            "assetID": {
+                                "description": "The ID of a managed asset. The resource focal point for a smart contract.",
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "assetID"
+                        ],
+                        "type": "object"
+                    },
+                    "maxItems": 1,
+                    "minItems": 1,
+                    "type": "array"
+                },
+                "function": {
+                    "description": "readAssetHistory function",
+                    "enum": [
+                        "readAssetHistory"
+                    ],
+                    "type": "string"
+                },
+                "method": "query",
+                "result": {
+                    "description": "an array of states for one asset sorted by timestamp with the most recent entry first",
+                    "items": {
+                        "description": "A set of fields that constitute the complete asset state.",
+                        "properties": {
+                            "assetID": {
+                                "description": "The ID of a managed asset. The resource focal point for a smart contract.",
+                                "type": "string"
+                            },
+                            "assetstatus": {
+                                "description": "transport entity currently in possession of asset",
+                                "type": "string"
+                            },
+                            "location": {
+                                "description": "A geographical coordinate",
+                                "properties": {
+                                    "latitude": {
+                                        "type": "string"
+                                    },
+                                    "longitude": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            },
+							 "role": {
+                                "description": "person role",
+                                "type": "string"
+                            },
+							 "lastowner": {
+                                "description": "lastowner name",
+                                "type": "string"
+                            },
+							 "health": {
+                                "description": "overall health",
+                                "type": "string"
+                            },
+							 "ownername": {
+                                "description": "ownername",
+                                "type": "string"
+                            },
+							 "ownerid": {
+                                "description": "ownerid",
+                                "type": "string"
+                            },
+							 "overallstatus": {
+                                "description": "overallstatus",
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "minItems": 0,
+                    "type": "array"
+                }
+            },
+            "type": "object"
+        },
         "readAssetSamples": {
             "description": "Returns a string generated from the schema containing sample Objects as specified in generate.json in the scripts folder.",
             "properties": {
