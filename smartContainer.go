@@ -18,7 +18,6 @@ Sumabala Nair - Initial Contribution
 Kim Letkeman - Initial Contribution
 Sumabala Nair - Updated for hyperledger May 2016
 Sumabala Nair - Partial updates added May 2016
-Amit Patil - Added history blk read functinality
 ******************************************************************************/
 //SN: March 2016
 
@@ -228,7 +227,7 @@ func (t *SimpleChaincode) readAsset(stub shim.ChaincodeStubInterface, args []str
 func (t *SimpleChaincode) readAssetHistory(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	var aHistKey string // asset ID history key
 	var err error
-	var state CashMachineState
+	var state AssetState
 
 	// validate input data for number of args, Unmarshaling to asset state and obtain asset id
 	stateIn, err := t.validateInput(args)
