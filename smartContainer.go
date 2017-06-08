@@ -18,6 +18,7 @@ Sumabala Nair - Initial Contribution
 Kim Letkeman - Initial Contribution
 Sumabala Nair - Updated for hyperledger May 2016
 Sumabala Nair - Partial updates added May 2016
+Amit Patil - Added History block reading functionality
 ******************************************************************************/
 //SN: March 2016
 
